@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Flight Insight | Strategic Price Analytics
 
-## Getting Started
+![Flight Insight Banner](https://img.shields.io/badge/Status-Production%20Ready-blue?style=for-the-badge)
+![Next.js](https://img.shields.io/badge/Next.js-16.1-black?style=for-the-badge&logo=next.js)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4.0-cyab?style=for-the-badge&logo=tailwindcss)
+![Amadeus API](https://img.shields.io/badge/Data-Amadeus%20API-1A55E3?style=for-the-badge)
 
-First, run the development server:
+**Flight Insight** is a strategic analytics platform designed to verify the "Book Early" hypothesis. Instead of relying on static historical datasets, it performs "Future Trend Analysis" by querying live flight data for future departure dates (e.g., +7 days, +30 days, ... +6 months) to construct a real-time pricing curve.
 
+## 🚀 Key Features
+
+*   **Real-time Price Engine**: Integrates with the **Amadeus Self-Service API** to fetch live global flight data.
+*   **Smart Fallback System**: Automatically switches to a sophisticated **Mock Data Generative Model** if API keys are missing or limits are reached—ensuring the UI is always demo-ready.
+*   **Trend Visualization**: Interactive line charts (powered by Recharts) mapping price vs. booking lead time.
+*   **Strategic Advisory**: Algorithms that calculate potential savings and identify the optimal "Sweet Spot" for booking.
+*   **Premium UX**: Fully responsive, dark-mode-first interface featuring glassmorphism, smooth micro-animations, and a layout-stable design.
+
+## 🛠️ Technology Stack
+
+*   **Framework**: Next.js 16 (App Router)
+*   **Styling**: Tailwind CSS v4 (with custom glass utilities)
+*   **Visualization**: Recharts
+*   **Icons**: Lucide React
+*   **Integration**: Amadeus Node SDK
+
+## 🏁 Getting Started
+
+### 1. Clone & Install
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/flight-insight.git
+cd flight-insight
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configure Environment (Optional)
+The app runs in **Demo Mode** out of the box. To enable live data:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  Get your **API Key** and **Secret** from [Amadeus for Developers](https://developers.amadeus.com).
+2.  Copy the example env file:
+    ```bash
+    cp env.example .env.local
+    ```
+3.  Add your credentials to `.env.local`:
+    ```env
+    AMADEUS_CLIENT_ID=your_key
+    AMADEUS_CLIENT_SECRET=your_secret
+    ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Run Locally
+```bash
+npm run dev
+```
+Visit `http://localhost:3000` to start analyzing.
 
-## Learn More
+## 🌍 Deployment
 
-To learn more about Next.js, take a look at the following resources:
+This project is optimized for deployment on **Vercel**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1.  Push your code to GitHub/GitLab.
+2.  Import the project into Vercel.
+3.  **CRITICAL**: In the Vercel Project Settings, add your Environment Variables (`AMADEUS_CLIENT_ID`, `AMADEUS_CLIENT_SECRET`).
+4.  Deploy!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📄 License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License - see the LICENSE file for details.

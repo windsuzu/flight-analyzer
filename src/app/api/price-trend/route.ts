@@ -2,6 +2,10 @@ import { NextResponse } from 'next/server';
 import amadeus from '@/lib/amadeus';
 import { generateMockData, PricePoint } from '@/utils/flightDataGenerator';
 
+// Simple in-memory cache
+const CACHE = new Map<string, { timestamp: number, data: any, source: string }>();
+const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+
 export async function POST(request: Request) {
     try {
         const body = await request.json();
@@ -9,6 +13,15 @@ export async function POST(request: Request) {
 
         if (!origin || !destination) {
             return NextResponse.json({ error: 'Missing origin or destination' }, { status: 400 });
+        }
+
+        // 1. Check Cache
+        const cacheKey = `${origin}-${destination}`;
+        const cached = CACHE.get(cacheKey);
+
+        if (cached && (Date.now() - cached.timestamp < CACHE_DURATION)) {
+            console.log(`Returning cached data for ${cacheKey}`);
+            return NextResponse.json({ source: cached.source, data: cached.data, cached: true });
         }
 
         // Check if API keys are configured
@@ -69,6 +82,13 @@ export async function POST(request: Request) {
             // Fallback if real API returns nothing (or bad routes)
             return NextResponse.json({ source: 'mock_fallback', data: generateMockData() });
         }
+
+        // 2. Save to Cache
+        CACHE.set(cacheKey, {
+            timestamp: Date.now(),
+            data: results,
+            source: 'amadeus'
+        });
 
         return NextResponse.json({ source: 'amadeus', data: results, errors });
 
